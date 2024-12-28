@@ -18,6 +18,7 @@
 - `-l`: Count lines.
 - `-w`: Count words.
 - `-c`: Count bytes.
+- `-m`: Count characters.
 
 ### Examples
 
@@ -37,6 +38,12 @@
 
 ```bash
 ./gwc -w file1.txt file2.txt
+```
+
+#### Count characters in multiple files
+
+```bash
+./gwc -m file1.txt file2.txt
 ```
 
 #### Use standard input
