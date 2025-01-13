@@ -15,6 +15,13 @@ type Counts struct {
 	Characters int64
 }
 
+func (c *Counts) Add(a Counts) {
+	c.Lines += a.Lines
+	c.Words += a.Words
+	c.Bytes += a.Bytes
+	c.Characters += a.Characters
+}
+
 func Count(in io.Reader) Counts {
 	source := bufio.NewReader(in)
 

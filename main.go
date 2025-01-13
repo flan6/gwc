@@ -13,24 +13,34 @@ import (
 func main() {
 	op := (&options.ArgOptions{}).Parse()
 
-	files := flag.Args()
+	filesArgs := flag.Args()
 
-	var res count.Counts
-	name := ""
+	if len(filesArgs) < 1 {
+		printRes(count.Count(os.Stdin), *op, "")
+		return
+	}
 
-	if len(files) > 0 {
-		file, err := os.Open(files[0])
+	totalRes := count.Counts{}
+	for _, filePath := range filesArgs {
+		file, err := os.Open(filePath)
 		if err != nil {
 			log.Fatal(err)
 		}
 		defer file.Close()
 
-		name = file.Name()
-		res = count.Count(file)
-	} else {
-		res = count.Count(os.Stdin)
+		res := count.Count(file)
+
+		printRes(res, *op, file.Name())
+
+		totalRes.Add(res)
 	}
 
+	if len(filesArgs) > 1 {
+		printRes(totalRes, *op, "total")
+	}
+}
+
+func printRes(res count.Counts, op options.ArgOptions, name string) {
 	out := ""
 
 	if op.L {
